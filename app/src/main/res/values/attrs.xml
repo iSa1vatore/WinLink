@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Slider">
+        <attr name="sliderLabel" format="string" />
+        <attr name="sliderValue" format="integer" />
+        <attr name="sliderIcon" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="SquareButton">
+        <attr name="buttonIcon" format="reference" />
+    </declare-styleable>
+</resources>

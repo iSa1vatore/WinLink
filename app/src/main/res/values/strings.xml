@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WinLink</string>
+
+    <string name="touchpad">Touchpad</string>
+    <string name="files">Files</string>
+    <string name="settings">Settings</string>
+    <string name="media">Media</string>
+    <string name="volume">Volume</string>
+    <string name="brightness">Brightness</string>
+</resources>

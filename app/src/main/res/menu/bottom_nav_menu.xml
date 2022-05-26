@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/touchpadFragment"
+        android:icon="@drawable/ic_outline_mouse"
+        android:title="@string/touchpad" />
+    <item
+        android:id="@+id/mediaFragment"
+        android:icon="@drawable/ic_outline_music_note"
+        android:title="@string/media" />
+    <item
+        android:id="@+id/filesFragment"
+        android:icon="@drawable/ic_outline_folder"
+        android:title="@string/files" />
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_outline_settings"
+        android:title="@string/settings" />
+</menu>

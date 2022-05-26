@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewFilledStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:ignore="ContentDescription,SpeakableTextPresentCheck,TouchTargetSizeCheck">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/coverContainer"
+            style="?attr/materialCardViewElevatedStyle"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/audioSource">
+
+            <ImageView
+                android:id="@+id/thumbnailPreview"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_outline_music_note"
+                app:tint="?attr/colorControlNormal"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:id="@+id/sourceIcon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_outline_laptop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorControlNormal"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/audioSource"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="Cider"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toBottomOf="@+id/sourceIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/sourceIcon"
+            app:layout_constraintTop_toTopOf="@+id/sourceIcon" />
+
+        <TextView
+            android:id="@+id/songTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="Sailor Moon"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/songArtist"
+            app:layout_constraintEnd_toStartOf="@+id/prevButton"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/coverContainer"
+            app:layout_constraintTop_toTopOf="@+id/coverContainer"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/songArtist"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="Midix"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toBottomOf="@+id/coverContainer"
+            app:layout_constraintEnd_toStartOf="@+id/prevButton"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/songTitle"
+            app:layout_constraintTop_toBottomOf="@+id/songTitle" />
+
+        <ImageView
+            android:id="@+id/playButton"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_round_play_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/coverContainer"
+            app:layout_constraintEnd_toStartOf="@+id/nextButton"
+            app:layout_constraintTop_toTopOf="@+id/coverContainer"
+            app:tint="?attr/colorControlNormal" />
+
+        <ImageView
+            android:id="@+id/prevButton"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_round_skip_previous"
+            app:layout_constraintBottom_toBottomOf="@+id/coverContainer"
+            app:layout_constraintEnd_toStartOf="@+id/playButton"
+            app:layout_constraintTop_toTopOf="@+id/coverContainer"
+            app:tint="?attr/colorControlNormal" />
+
+        <ImageView
+            android:id="@+id/nextButton"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_round_skip_next"
+            app:layout_constraintBottom_toBottomOf="@+id/coverContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/coverContainer"
+            app:tint="?attr/colorControlNormal" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
+

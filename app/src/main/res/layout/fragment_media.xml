@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context="com.sproject.winlink.presentation.media.MediaFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/marginStartGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/marginEndGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/media" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ProgressBar
+        android:id="@+id/progressIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout2" />
+
+    <include
+        android:id="@+id/mediaPlayer"
+        layout="@layout/media_player"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/marginEndGuideline"
+        app:layout_constraintStart_toStartOf="@id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout2" />
+
+    <com.sproject.winlink.presentation.components.Slider
+        android:id="@+id/volumeSlider"
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardBackgroundColor="?attr/colorOnSurfaceInverse"
+        app:layout_constraintEnd_toStartOf="@id/brightnessSlider"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/mediaPlayer"
+        app:sliderIcon="@drawable/ic_volume_up"
+        app:sliderLabel="@string/volume"
+        tools:sliderValue="65" />
+
+    <com.sproject.winlink.presentation.components.Slider
+        android:id="@+id/brightnessSlider"
+        style="@style/Widget.Material3.CardView.Filled"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="?attr/colorOnSurfaceInverse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/volumeSlider"
+        app:layout_constraintTop_toTopOf="@+id/volumeSlider"
+        app:sliderIcon="@drawable/ic_brightness_high"
+        app:sliderLabel="@string/brightness"
+        tools:sliderValue="75" />
+
+    <com.sproject.winlink.presentation.components.SquareButton
+        android:id="@+id/lockButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:buttonIcon="@drawable/ic_lock"
+        app:layout_constraintEnd_toStartOf="@+id/powerButton"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/volumeSlider" />
+
+    <com.sproject.winlink.presentation.components.SquareButton
+        android:id="@+id/powerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:buttonIcon="@drawable/ic_power"
+        app:layout_constraintEnd_toStartOf="@+id/squareButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/lockButton"
+        app:layout_constraintTop_toTopOf="@+id/lockButton" />
+
+    <com.sproject.winlink.presentation.components.SquareButton
+        android:id="@+id/squareButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:buttonIcon="@drawable/ic_restart"
+        app:layout_constraintEnd_toStartOf="@+id/rebootButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/powerButton"
+        app:layout_constraintTop_toTopOf="@+id/lockButton" />
+
+    <com.sproject.winlink.presentation.components.SquareButton
+        android:id="@+id/rebootButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:buttonIcon="@drawable/ic_sleep"
+        app:layout_constraintEnd_toStartOf="@+id/screenOffButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/squareButton"
+        app:layout_constraintTop_toTopOf="@+id/lockButton" />
+
+    <com.sproject.winlink.presentation.components.SquareButton
+        android:id="@+id/screenOffButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:buttonIcon="@drawable/ic_screen_off"
+        app:layout_constraintEnd_toEndOf="@id/marginEndGuideline"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/rebootButton"
+        app:layout_constraintTop_toTopOf="@+id/lockButton" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/contentContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="mediaPlayer,volumeSlider,brightnessSlider,lockButton,
+        powerButton, rebootButton, screenOffButton, squareButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

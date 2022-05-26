@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/touchpadFragment">
+
+    <fragment
+        android:id="@+id/filesFragment"
+        android:name="com.sproject.winlink.presentation.files.FilesFragment"
+        android:label="fragment_files"
+        tools:layout="@layout/fragment_files" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.sproject.winlink.presentation.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/touchpadFragment"
+        android:name="com.sproject.winlink.presentation.touchpad.TouchpadFragment"
+        android:label="fragment_touchpad"
+        tools:layout="@layout/fragment_touchpad" />
+    <fragment
+        android:id="@+id/mediaFragment"
+        android:name="com.sproject.winlink.presentation.media.MediaFragment"
+        android:label="fragment_media"
+        tools:layout="@layout/fragment_media" />
+</navigation>

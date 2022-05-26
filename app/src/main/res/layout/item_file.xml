@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="0dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:cardBackgroundColor="?attr/colorSecondaryContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/buttonIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_outline_folder"
+            app:tint="?attr/colorControlNormal" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/fileName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="Movies"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/lastEdit"
+        app:layout_constraintEnd_toStartOf="@+id/moreIcon"
+        app:layout_constraintStart_toEndOf="@id/materialCardView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/lastEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="3 days ago"
+        app:layout_constraintBottom_toBottomOf="@id/materialCardView"
+        app:layout_constraintEnd_toStartOf="@+id/moreIcon"
+        app:layout_constraintStart_toStartOf="@id/fileName"
+        app:layout_constraintTop_toBottomOf="@id/fileName"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <ImageView
+        android:id="@+id/moreIcon"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:ellipsize="end"
+        android:focusable="true"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:src="@drawable/ic_round_more"
+        app:layout_constraintBottom_toBottomOf="@+id/materialCardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/materialCardView"
+        app:tint="?attr/colorControlNormal" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/colorSurfaceVariant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/fileName"
+        app:layout_constraintTop_toBottomOf="@id/materialCardView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
