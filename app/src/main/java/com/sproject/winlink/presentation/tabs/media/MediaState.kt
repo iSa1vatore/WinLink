@@ -1,4 +1,4 @@
-package com.sproject.winlink.presentation.media
+package com.sproject.winlink.presentation.tabs.media
 
 import com.sproject.winlink.domain.model.MediaInfos
 

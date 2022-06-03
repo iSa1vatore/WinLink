@@ -1,4 +1,4 @@
-package com.sproject.winlink.presentation.touchpad
+package com.sproject.winlink.presentation.tabs.touchpad
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

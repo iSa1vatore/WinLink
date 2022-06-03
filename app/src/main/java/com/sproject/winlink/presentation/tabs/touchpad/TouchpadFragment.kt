@@ -1,4 +1,4 @@
-package com.sproject.winlink.presentation.touchpad
+package com.sproject.winlink.presentation.tabs.touchpad
 
 import android.annotation.SuppressLint
 import android.os.Bundle

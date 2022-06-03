@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sproject.winlink.presentation.settings.SettingsFragment">
-
+    tools:context="com.sproject.winlink.presentation.tabs.settings.SettingsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
@@ -22,5 +22,17 @@
             app:title="@string/settings" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <Button
+        android:id="@+id/buttonDisconnect"
+        style="@style/Widget.Material3.Button.TextButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/vertical_margin"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:text="@string/disconnect_from_pc"
+        app:icon="@drawable/ic_link_off"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

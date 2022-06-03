@@ -1,4 +1,4 @@
-package com.sproject.winlink.presentation.files
+package com.sproject.winlink.presentation.tabs.files
 
 import android.view.LayoutInflater
 import android.view.Menu

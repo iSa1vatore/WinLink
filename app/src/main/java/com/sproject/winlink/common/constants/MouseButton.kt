@@ -1,4 +1,4 @@
-package com.sproject.winlink.common
+package com.sproject.winlink.common.constants
 
 class MouseButton {
     val LEFT = 1

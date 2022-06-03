@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sproject.winlink.presentation.connection.ConnectionFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/marginStartGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/horizontal_margin" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/marginEndGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/horizontal_margin" />
+
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/marginEndGuideline"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <TextView
+        android:id="@+id/connectingToPc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/connecting_to_pc"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/marginEndGuideline"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarConnecting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vertical_margin"
+        app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@id/connectingToPc" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/addressField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/ip_address"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/marginEndGuideline"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@id/appTitle"
+        app:layout_constraintVertical_bias="0.1">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/connectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:text="@string/connect_to_pc"
+        app:icon="@drawable/ic_link"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/addressField" />
+
+    <Button
+        android:id="@+id/connectButtonByQr"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/scan_qr_code"
+        app:icon="@drawable/ic_qr_code_scanner"
+        app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
+        app:layout_constraintTop_toTopOf="@+id/connectButton" />
+
+    <TextView
+        android:id="@+id/devicesNearby"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/devices_nearby"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/connectButton" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/filesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:paddingStart="12dp"
+        android:paddingEnd="@dimen/horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/devicesNearby"
+        tools:listitem="@layout/item_device" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/devicesNearby" />
+
+    <ProgressBar
+        android:id="@+id/progressBarMin"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        app:layout_constraintBottom_toBottomOf="@+id/devicesNearby"
+        app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
+        app:layout_constraintTop_toTopOf="@+id/devicesNearby" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/contentContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="progressBarMin, progressBar, filesRecyclerView,
+        devicesNearby, connectButtonByQr, connectButton, addressField" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/connectingContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="progressBarConnecting, connectingToPc" />
+</androidx.constraintlayout.widget.ConstraintLayout>
