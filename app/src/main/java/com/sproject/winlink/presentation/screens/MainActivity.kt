@@ -1,4 +1,4 @@
-package com.sproject.winlink.presentation
+package com.sproject.winlink.presentation.screens
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,7 @@ import by.kirich1409.viewbindingdelegate.CreateMethod
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sproject.winlink.R
 import com.sproject.winlink.databinding.ActivityMainBinding
-import com.sproject.winlink.presentation.tabs.TabsFragment
+import com.sproject.winlink.presentation.screens.tabs.TabsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.sproject.winlink.presentation.tabs.touchpad
+package com.sproject.winlink.presentation.screens.tabs.touchpad
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -22,19 +22,9 @@ class TouchpadViewModel @Inject constructor(
     private var prevMoveX = 0
     private var prevMoveY = 0
 
-    fun connectToPc() {
+    fun mouseButtonClick(button: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val url = "ws://192.168.1.39:15110"
-
-            when (pcSocketService.initSession(url)) {
-                is Resource.Success -> {
-                    Log.i("socket", "connection success")
-                }
-                is Resource.Error -> {
-                    Log.e("socket", "connection error")
-                }
-                else -> {}
-            }
+            mouseClickUseCase(button)
         }
     }
 

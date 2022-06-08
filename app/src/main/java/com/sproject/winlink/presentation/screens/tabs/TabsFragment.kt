@@ -1,4 +1,4 @@
-package com.sproject.winlink.presentation.tabs
+package com.sproject.winlink.presentation.screens.tabs
 
 import android.os.Bundle
 import android.view.View

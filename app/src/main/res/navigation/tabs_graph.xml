@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/filesFragment"
-        android:name="com.sproject.winlink.presentation.tabs.files.FilesFragment"
+        android:name="com.sproject.winlink.presentation.screens.tabs.files.FilesFragment"
         android:label="@string/files"
         tools:layout="@layout/fragment_files" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.sproject.winlink.presentation.tabs.settings.SettingsFragment"
+        android:name="com.sproject.winlink.presentation.screens.tabs.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/touchpadFragment"
-        android:name="com.sproject.winlink.presentation.tabs.touchpad.TouchpadFragment"
+        android:name="com.sproject.winlink.presentation.screens.tabs.touchpad.TouchpadFragment"
         android:label="@string/touchpad"
         tools:layout="@layout/fragment_touchpad" />
     <fragment
         android:id="@+id/mediaFragment"
-        android:name="com.sproject.winlink.presentation.tabs.media.MediaFragment"
+        android:name="com.sproject.winlink.presentation.screens.tabs.media.MediaFragment"
         android:label="@string/media"
         tools:layout="@layout/fragment_media" />
 </navigation>

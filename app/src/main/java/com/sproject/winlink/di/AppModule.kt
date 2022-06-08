@@ -1,5 +1,6 @@
 package com.sproject.winlink.di
 
+import com.sproject.winlink.common.util.NetworkUtils
 import com.sproject.winlink.data.remote.PcApi
 import com.sproject.winlink.data.remote.PcSocketService
 import com.sproject.winlink.data.remote.PcSocketServiceImpl
@@ -60,5 +61,11 @@ object AppModule {
     @Singleton
     fun providePcRepository(pcApi: PcApi): PcRepository {
         return PcRepositoryImpl(pcApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkUtils(): NetworkUtils {
+        return NetworkUtils()
     }
 }

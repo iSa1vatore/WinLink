@@ -1,7 +1,9 @@
 package com.sproject.winlink.common.constants
 
 class MouseButton {
-    val LEFT = 1
-    val RIGHT = 2
-    val CENTER = 3
+    companion object {
+        const val LEFT = 1
+        const val RIGHT = 2
+        const val CENTER = 3
+    }
 }

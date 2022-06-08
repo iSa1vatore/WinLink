@@ -1,4 +1,4 @@
-package com.sproject.winlink.presentation.tabs.media
+package com.sproject.winlink.presentation.screens.tabs.media
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

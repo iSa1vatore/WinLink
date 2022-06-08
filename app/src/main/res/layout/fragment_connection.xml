@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sproject.winlink.presentation.connection.ConnectionFragment">
+    tools:context="com.sproject.winlink.presentation.screens.connection.ConnectionFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/marginStartGuideline"
@@ -31,26 +31,6 @@
         app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.2" />
-
-    <TextView
-        android:id="@+id/connectingToPc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/connecting_to_pc"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/marginEndGuideline"
-        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ProgressBar
-        android:id="@+id/progressBarConnecting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/vertical_margin"
-        app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
-        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
-        app:layout_constraintTop_toBottomOf="@id/connectingToPc" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/addressField"
@@ -102,17 +82,27 @@
         app:layout_constraintTop_toBottomOf="@+id/connectButton" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/filesRecyclerView"
+        android:id="@+id/devicesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/vertical_margin"
-        android:paddingStart="12dp"
-        android:paddingEnd="@dimen/horizontal_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/devicesNearby"
         tools:listitem="@layout/item_device" />
+
+    <TextView
+        android:id="@+id/noDevicesTextView"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No devices nearby"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/devicesNearby"/>
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -131,11 +121,44 @@
         app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
         app:layout_constraintTop_toTopOf="@+id/devicesNearby" />
 
+    <ImageView
+        android:id="@+id/refreshButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_restart"
+        app:layout_constraintBottom_toBottomOf="@+id/devicesNearby"
+        app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
+        app:layout_constraintTop_toTopOf="@+id/devicesNearby"
+        app:tint="?attr/colorControlNormal" />
+
+    <TextView
+        android:id="@+id/connectingToPc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/connecting_to_pc"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/marginEndGuideline"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarConnecting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vertical_margin"
+        app:layout_constraintEnd_toStartOf="@+id/marginEndGuideline"
+        app:layout_constraintStart_toStartOf="@+id/marginStartGuideline"
+        app:layout_constraintTop_toBottomOf="@id/connectingToPc" />
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/contentContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="progressBarMin, progressBar, filesRecyclerView,
+        app:constraint_referenced_ids="progressBar, devicesRecyclerView,
         devicesNearby, connectButtonByQr, connectButton, addressField" />
 
     <androidx.constraintlayout.widget.Group

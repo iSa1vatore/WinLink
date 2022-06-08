@@ -14,4 +14,6 @@
     <string name="connect">Connect</string>
     <string name="disconnect_from_pc">Disconnect from PC</string>
     <string name="connecting_to_pc">Connecting to PC</string>
+    <string name="connected_to" formatted="true">Connected to %s</string>
+    <string name="connection_error">Connection error</string>
 </resources>

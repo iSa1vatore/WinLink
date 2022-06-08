@@ -1,4 +1,4 @@
-package com.sproject.winlink.presentation.tabs.media
+package com.sproject.winlink.presentation.screens.tabs.media
 
 import android.os.Bundle
 import android.util.Log
