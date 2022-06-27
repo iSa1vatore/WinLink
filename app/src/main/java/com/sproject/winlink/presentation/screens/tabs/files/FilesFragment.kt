@@ -1,33 +1,34 @@
 package com.sproject.winlink.presentation.screens.tabs.files
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sproject.winlink.R
 import com.sproject.winlink.databinding.FragmentFilesBinding
 import com.sproject.winlink.databinding.ItemFileBinding
 import com.sproject.winlink.domain.model.FileItem
+import com.sproject.winlink.presentation.base.BaseFragment
+import com.sproject.winlink.presentation.extensions.visibleIf
 import com.sproject.winlink.presentation.utils.RecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FilesFragment : Fragment(R.layout.fragment_files) {
+class FilesFragment : BaseFragment<FragmentFilesBinding, FilesViewModel>(
+    R.layout.fragment_files
+) {
 
-    private val binding: FragmentFilesBinding by viewBinding()
-    private val vm: FilesViewModel by viewModels()
+    private lateinit var devicesAdapter: RecyclerViewAdapter<ItemFileBinding, FileItem>
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val devicesAdapter = RecyclerViewAdapter<ItemFileBinding, FileItem>(
+    override fun setupViews() {
+        devicesAdapter = RecyclerViewAdapter(
             bindingInflater = ItemFileBinding::inflate,
             onBindView = { v, cell ->
+                v.root.setOnClickListener {
+                    vm.getFiles(cell.details.path)
+                }
+
                 v.fileName.text = cell.details.name
                 v.lastEdit.text = cell.details.lastEdit.toString()
                 v.moreIcon.setOnClickListener(this::showPopupMenu)
@@ -43,23 +44,17 @@ class FilesFragment : Fragment(R.layout.fragment_files) {
             if (itemAnimator is DefaultItemAnimator) {
                 itemAnimator.supportsChangeAnimations = false
             }
-        }
 
-        devicesAdapter.items = listOf(
-            RecyclerViewAdapter.Item(
-                FileItem(
-                    name = "OS (C:)", lastEdit = 1, isFolder = true, path = "C:\\"
-                )
-            ),
-            RecyclerViewAdapter.Item(
-                FileItem(
-                    name = "HDD Data I (D:)",
-                    lastEdit = 1,
-                    isFolder = true,
-                    path = "D:\\"
-                )
-            ),
-        )
+            currentPathTextView.text = "PC"
+        }
+    }
+
+    override fun setupObservers() {
+        vm.state.observe(viewLifecycleOwner) {
+            binding.progressBar.visibleIf(it.isLoading)
+
+            devicesAdapter.items = it.files
+        }
     }
 
     private fun showPopupMenu(view: View) {

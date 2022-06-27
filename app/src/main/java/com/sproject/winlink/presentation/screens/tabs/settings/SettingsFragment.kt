@@ -7,6 +7,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.sproject.winlink.R
 import com.sproject.winlink.databinding.FragmentSettingsBinding
 import com.sproject.winlink.presentation.extensions.findTopNavController
+import com.sproject.winlink.presentation.screens.tabs.TabsFragmentDirections
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
@@ -16,8 +17,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonDisconnect.setOnClickListener {
-            findTopNavController()
-                .navigate(R.id.action_tabsFragment_to_connectionFragment)
+            findTopNavController().navigate(
+                TabsFragmentDirections
+                    .actionTabsFragmentToConnectionFragment(autoConnect = false)
+            )
         }
     }
 }

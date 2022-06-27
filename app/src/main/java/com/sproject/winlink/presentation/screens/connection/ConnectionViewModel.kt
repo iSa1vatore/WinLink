@@ -1,77 +1,124 @@
 package com.sproject.winlink.presentation.screens.connection
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.sproject.winlink.common.util.NetworkUtils
 import com.sproject.winlink.common.util.Resource
+import com.sproject.winlink.data.remote.PcApi
+import com.sproject.winlink.data.remote.PcSocketService
+import com.sproject.winlink.data.remote.mapper.toPcInfos
 import com.sproject.winlink.domain.model.PcInfos
-import com.sproject.winlink.domain.use_case.ConnectToPcUseCase
-import com.sproject.winlink.domain.use_case.GetDevicesNearbyUseCase
-import com.sproject.winlink.presentation.base.BaseViewModel
+import com.sproject.winlink.domain.repository.PcRepository
+import com.sproject.winlink.presentation.base.BaseViewModelWithStateAndAction
 import com.sproject.winlink.presentation.utils.RecyclerViewAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ConnectionViewModel @Inject constructor(
-    private val getDevicesNearbyUseCase: GetDevicesNearbyUseCase,
-    private val connectToPcUseCase: ConnectToPcUseCase
-) : BaseViewModel() {
+    private val pcApi: PcApi,
+    private val pcSocketService: PcSocketService,
+    private val pcRepository: PcRepository,
+    private val networkUtils: NetworkUtils,
+) : BaseViewModelWithStateAndAction<ConnectionState, ConnectionEvent>(
+    initialState = ConnectionState.FetchingDevicesNearby()
+) {
 
-    private val _state = MutableLiveData<ConnectionState>(
-        ConnectionState.FetchingDevicesNearby()
-    )
-    val state = _state
+    fun init(autoConnect: Boolean) =
+        viewModelScope.launch {
+            if (!autoConnect) {
+                discoverDevicesNearby()
 
-    private val eventChannel = Channel<ConnectionEvent>()
-    val events = eventChannel.receiveAsFlow()
+                return@launch
+            }
 
-    init {
-        discoverDevicesNearby()
-    }
-
-    fun discoverDevicesNearby() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _state.postValue(ConnectionState.FetchingDevicesNearby())
-
-            getDevicesNearbyUseCase { it ->
+            pcRepository.getLastConnectedPc().collect {
                 when (it) {
-                    is Resource.Success -> _state.postValue(
-                        ConnectionState.NearbyDevicesLoaded(devices = it.data!!.map {
-                            RecyclerViewAdapter.Item(it)
-                        })
+                    is Resource.Success -> {
+                        if (it.data != null) connectToPc(it.data)
+                    }
+                    is Resource.Loading -> {
+                        Log.e("lol", it.toString())
+                    }
+                    else -> discoverDevicesNearby()
+                }
+            }
+        }
+
+    fun discoverDevicesNearby() =
+        viewModelScope.launch(Dispatchers.IO) {
+            setState(ConnectionState.FetchingDevicesNearby(), true)
+
+            var devices = mutableListOf<PcInfos>()
+
+            networkUtils.getClients { ipAddress ->
+                pcApi.initSession(ipAddress)
+
+                try {
+                    val result = pcApi.getPcInfos()
+
+                    devices = ArrayList(devices)
+                    devices.add(result.toPcInfos())
+
+                    setState(
+                        ConnectionState.FetchingDevicesNearby(
+                            devices = devices.map {
+                                RecyclerViewAdapter.Item(it)
+                            }
+                        ),
+                        true
                     )
-                    is Resource.Loading -> _state.postValue(
-                        ConnectionState.FetchingDevicesNearby(devices = it.data!!.map {
-                            RecyclerViewAdapter.Item(it)
-                        })
-                    )
+                } catch (e: Exception) {
+                }
+            }
+
+            setState(
+                ConnectionState.NearbyDevicesLoaded(
+                    devices = devices.map {
+                        RecyclerViewAdapter.Item(it)
+                    }
+                ),
+                true
+            )
+        }
+
+    fun connectToPcByIp(ip: String) =
+        viewModelScope.launch(Dispatchers.IO) {
+            pcApi.initSession(ip)
+
+            pcRepository.getPcInfos().collect {
+                when (it) {
+                    is Resource.Success -> connectToPc(it.data!!)
+                    is Resource.Error -> sendEvent(ConnectionEvent.PcConnectionError)
                     else -> {}
                 }
             }
         }
-    }
 
-    fun connectToPcByIp(ip: String) {
-        println(ip)
-    }
-
-    fun connectToPc(pc: PcInfos) {
-        _state.value = ConnectionState.ConnectingToPc(pc)
-
+    fun connectToPc(pcInfos: PcInfos) =
         viewModelScope.launch(Dispatchers.IO) {
-            when (connectToPcUseCase(pc)) {
-                is Resource.Success -> eventChannel.send(ConnectionEvent.ConnectedToPc(pc))
+            setState(ConnectionState.ConnectingToPc(pcInfos), true)
+
+            pcApi.initSession(pcInfos.address, pcInfos.port)
+
+            val createPcWs = pcSocketService.initSession(
+                "ws://${pcInfos.address}:${pcInfos.port}"
+            )
+
+            when (createPcWs) {
+                is Resource.Success -> {
+                    pcRepository.saveLastConnectedPc(pcInfos)
+
+                    sendEvent(ConnectionEvent.ConnectedToPc(pcInfos))
+                }
                 is Resource.Error -> {
                     discoverDevicesNearby()
 
-                    eventChannel.send(ConnectionEvent.PcConnectionError)
+                    sendEvent(ConnectionEvent.PcConnectionError)
                 }
                 else -> {}
             }
         }
-    }
 }

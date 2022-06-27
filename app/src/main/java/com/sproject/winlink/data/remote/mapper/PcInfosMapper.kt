@@ -11,3 +11,12 @@ fun PcInfosDto.toPcInfos(): PcInfos {
         port = port
     )
 }
+
+fun PcInfos.toPcInfosDto(): PcInfosDto {
+    return PcInfosDto(
+        name = name,
+        userName = userName,
+        address = address,
+        port = port
+    )
+}

@@ -2,8 +2,8 @@ package com.sproject.winlink.presentation.screens.tabs.media
 
 import com.sproject.winlink.domain.model.MediaInfos
 
-data class MediaState(
-    val isLoading: Boolean = false,
-    val info: MediaInfos? = null,
-    val error: String = ""
-)
+sealed class MediaState {
+    object Loading : MediaState()
+    data class Success(val info: MediaInfos) : MediaState()
+    data class Error(val message: String) : MediaState()
+}

@@ -95,7 +95,6 @@
         android:layout_marginTop="16dp"
         app:buttonIcon="@drawable/ic_lock"
         app:layout_constraintEnd_toStartOf="@+id/powerButton"
-        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/marginStartGuideline"
         app:layout_constraintTop_toBottomOf="@+id/volumeSlider" />
@@ -105,29 +104,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:buttonIcon="@drawable/ic_power"
-        app:layout_constraintEnd_toStartOf="@+id/squareButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/lockButton"
-        app:layout_constraintTop_toTopOf="@+id/lockButton" />
-
-    <com.sproject.winlink.presentation.components.SquareButton
-        android:id="@+id/squareButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:buttonIcon="@drawable/ic_restart"
         app:layout_constraintEnd_toStartOf="@+id/rebootButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/powerButton"
+        app:layout_constraintStart_toEndOf="@+id/lockButton"
         app:layout_constraintTop_toTopOf="@+id/lockButton" />
 
     <com.sproject.winlink.presentation.components.SquareButton
         android:id="@+id/rebootButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:buttonIcon="@drawable/ic_restart"
+        app:layout_constraintEnd_toStartOf="@+id/sleepButton"
+        app:layout_constraintStart_toEndOf="@+id/powerButton"
+        app:layout_constraintTop_toTopOf="@+id/lockButton" />
+
+    <com.sproject.winlink.presentation.components.SquareButton
+        android:id="@+id/sleepButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:buttonIcon="@drawable/ic_sleep"
         app:layout_constraintEnd_toStartOf="@+id/screenOffButton"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/squareButton"
+        app:layout_constraintStart_toEndOf="@+id/rebootButton"
         app:layout_constraintTop_toTopOf="@+id/lockButton" />
 
     <com.sproject.winlink.presentation.components.SquareButton
@@ -136,8 +132,8 @@
         android:layout_height="wrap_content"
         app:buttonIcon="@drawable/ic_screen_off"
         app:layout_constraintEnd_toEndOf="@id/marginEndGuideline"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/rebootButton"
+
+        app:layout_constraintStart_toEndOf="@+id/sleepButton"
         app:layout_constraintTop_toTopOf="@+id/lockButton" />
 
     <androidx.constraintlayout.widget.Group
@@ -145,6 +141,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="mediaPlayer,volumeSlider,brightnessSlider,lockButton,
-        powerButton, rebootButton, screenOffButton, squareButton" />
+        powerButton, sleepButton, screenOffButton, rebootButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

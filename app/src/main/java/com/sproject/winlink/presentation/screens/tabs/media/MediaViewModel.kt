@@ -1,54 +1,64 @@
 package com.sproject.winlink.presentation.screens.tabs.media
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sproject.winlink.common.constants.MediaAction
+import com.sproject.winlink.common.constants.PowerAction
 import com.sproject.winlink.common.util.Resource
-import com.sproject.winlink.domain.model.SoundInfo
-import com.sproject.winlink.domain.use_case.GetMediaInfosUseCase
-import com.sproject.winlink.domain.use_case.SoundSetValueUseCase
+import com.sproject.winlink.data.remote.PcSocketService
+import com.sproject.winlink.domain.repository.PcRepository
+import com.sproject.winlink.presentation.base.BaseViewModelWithState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MediaViewModel @Inject constructor(
-    private val getMediaInfosUseCase: GetMediaInfosUseCase,
-    private val soundSetValueUseCase: SoundSetValueUseCase
-) : ViewModel() {
-
-    private val _state = MutableLiveData(MediaState())
-    val state = _state
+    private val pcRepository: PcRepository,
+    private val pcSocketService: PcSocketService
+) : BaseViewModelWithState<MediaState>(
+    initialState = MediaState.Loading
+) {
 
     init {
         viewModelScope.launch {
-            getMediaInfosUseCase().collect { result ->
+            pcRepository.getMediaState().collect { result ->
                 when (result) {
-                    is Resource.Success -> {
-                        _state.value = MediaState(info = result.data)
-                    }
-                    is Resource.Loading -> {
-                        _state.value = MediaState(isLoading = true)
-                    }
-                    is Resource.Error -> {
-                        _state.value = MediaState(
-                            error = result.message ?: "Unknown error"
+                    is Resource.Success -> setState(
+                        MediaState.Success(info = result.data!!)
+                    )
+                    is Resource.Loading -> setState(MediaState.Loading)
+                    is Resource.Error -> setState(
+                        MediaState.Error(
+                            result.message ?: "Unknown error"
                         )
-                    }
+                    )
                 }
             }
         }
     }
 
-    fun soundSetVolume(value: Int) {
-        val currentInfo = _state.value?.info ?: return
-
-        _state.value = MediaState(
-            info = currentInfo.copy(soundInfo = SoundInfo(value))
-        )
-
+    fun setBrightness(value: Int) =
         viewModelScope.launch {
-            soundSetValueUseCase(value)
+            pcSocketService.screenSetBrightness(0, value)
         }
-    }
+
+    fun powerAction(action: PowerAction) =
+        viewModelScope.launch {
+            pcSocketService.powerAction(action)
+        }
+
+    fun mediaAction(action: MediaAction) =
+        viewModelScope.launch {
+            pcSocketService.mediaAction(action)
+        }
+
+    fun screenOff() =
+        viewModelScope.launch {
+            pcSocketService.screenOff()
+        }
+
+    fun soundSetVolume(value: Int) =
+        viewModelScope.launch {
+            pcSocketService.soundSetValue(value)
+        }
 }

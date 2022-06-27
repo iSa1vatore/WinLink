@@ -1,82 +1,75 @@
 package com.sproject.winlink.presentation.screens.tabs.media
 
-import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.sproject.winlink.R
+import com.sproject.winlink.common.constants.MediaAction
+import com.sproject.winlink.common.constants.PowerAction
 import com.sproject.winlink.databinding.FragmentMediaBinding
+import com.sproject.winlink.presentation.base.BaseFragment
+import com.sproject.winlink.presentation.extensions.hideViews
+import com.sproject.winlink.presentation.extensions.showToast
+import com.sproject.winlink.presentation.extensions.showViews
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MediaFragment : Fragment(R.layout.fragment_media) {
+class MediaFragment : BaseFragment<FragmentMediaBinding, MediaViewModel>(
+    R.layout.fragment_media
+) {
 
-    private val binding: FragmentMediaBinding by viewBinding()
+    override fun setupViews() {
+        val cover = "https://images.genius.com/17062f0c7df46ca98fde1c4340ee2d8d.1000x1000x1.jpg"
 
-    private val vm: MediaViewModel by viewModels()
+        with(binding.mediaPlayer) {
+            audioSource.text = "Spotify"
+            songTitle.text = "4SQUAD"
+            songArtist.text = "VELIAL SQUAD"
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+            playButton.setImageResource(R.drawable.ic_round_play_arrow)
+            playButton.setImageResource(R.drawable.ic_round_pause)
 
-        setupViews()
-        initObservations()
+            Glide.with(thumbnail.context)
+                .load(cover)
+                .into(thumbnail)
+        }
     }
 
-    private fun setupViews() {
-        val textCover = "https://images.genius.com/17062f0c7df46ca98fde1c4340ee2d8d.1000x1000x1.jpg"
-
+    override fun setupListeners() {
         with(binding) {
+            volumeSlider.setListener(vm::soundSetVolume)
+            brightnessSlider.setListener(vm::setBrightness)
+
+            lockButton.setOnClickListener { vm.powerAction(PowerAction.LOCK) }
+            powerButton.setOnClickListener { vm.powerAction(PowerAction.OFF) }
+            rebootButton.setOnClickListener { vm.powerAction(PowerAction.REBOOT) }
+            sleepButton.setOnClickListener { vm.powerAction(PowerAction.SLEEP) }
+            screenOffButton.setOnClickListener { vm.screenOff() }
+
             with(mediaPlayer) {
-                audioSource.text = "Spotify"
-                songTitle.text = "4SQUAD"
-                songArtist.text = "VELIAL SQUAD"
-
-                playButton.setImageResource(R.drawable.ic_round_play_arrow)
-                playButton.setImageResource(R.drawable.ic_round_pause)
-
-                Glide.with(thumbnail.context)
-                    .load(textCover)
-                    .into(thumbnail)
-            }
-
-            volumeSlider.setListener {
-                vm.soundSetVolume(it)
-            }
-
-            brightnessSlider.setListener {
-                Log.e("value", it.toString())
+                prevButton.setOnClickListener { vm.mediaAction(MediaAction.PREV) }
+                playButton.setOnClickListener { vm.mediaAction(MediaAction.PLAY) }
+                nextButton.setOnClickListener { vm.mediaAction(MediaAction.NEXT) }
             }
         }
     }
 
-    private fun initObservations() {
+    override fun setupObservers() {
         vm.state.observe(viewLifecycleOwner) {
             with(binding) {
-                progressIndicator.visibility = if (it.isLoading) View.VISIBLE else View.GONE
-                contentContainer.visibility = if (it.isLoading) View.GONE else View.VISIBLE
+                when (it) {
+                    is MediaState.Loading -> {
+                        showViews(progressIndicator)
+                        hideViews(contentContainer)
+                    }
+                    is MediaState.Success -> {
+                        showViews(contentContainer)
+                        hideViews(progressIndicator)
 
-                if (it.info != null) {
-                    volumeSlider.value = it.info.soundInfo.volume
-                    brightnessSlider.value = 75
+                        volumeSlider.value = it.info.soundInfo.volume
+                        brightnessSlider.value = 75
+                    }
+                    is MediaState.Error -> showToast(it.message)
                 }
             }
         }
-    }
-
-    private fun toggleFullScreenMode() {
-        val windowInsetsController = ViewCompat.getWindowInsetsController(
-            requireActivity().window.decorView
-        ) ?: return
-
-        windowInsetsController.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
     }
 }

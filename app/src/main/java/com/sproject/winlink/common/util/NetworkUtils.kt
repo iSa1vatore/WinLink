@@ -1,10 +1,10 @@
 package com.sproject.winlink.common.util
 
+import java.net.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import java.net.*
 
 class NetworkUtils {
 
@@ -13,7 +13,8 @@ class NetworkUtils {
 
         fun inet4AddressFromInt(ip: Int): Inet4Address {
             return Inet4Address.getByAddress(
-                "", byteArrayOf(
+                "",
+                byteArrayOf(
                     (ip ushr 24 and 0xFF).toByte(),
                     (ip ushr 16 and 0xFF).toByte(),
                     (ip ushr 8 and 0xFF).toByte(),
@@ -41,7 +42,7 @@ class NetworkUtils {
     suspend fun getClients(callback: suspend (ipAddress: String) -> Unit) {
         val interfaces = getNetworkInterfaces()
 
-        //I don't think this is correct 🤔
+        // I don't think this is correct 🤔
         val network = interfaces.first()
 
         val networkSize = 2.shl(32 - network.networkPrefixLength.toInt() - 1)

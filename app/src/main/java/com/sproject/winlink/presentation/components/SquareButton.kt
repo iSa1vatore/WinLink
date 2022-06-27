@@ -16,6 +16,8 @@ class SquareButton(
 
     private val binding: SquareButtonBinding
 
+    private var listener: OnClickListener? = null
+
     constructor(context: Context, attrs: AttributeSet?, defStyleRes: Int) : this(
         context,
         attrs,
@@ -52,6 +54,14 @@ class SquareButton(
 
         binding.buttonIcon.setImageResource(iconRes)
 
+        binding.materialCardView.setOnClickListener {
+            listener?.onClick(it)
+        }
+
         typedArray.recycle()
+    }
+
+    override fun setOnClickListener(listener: OnClickListener?) {
+        this.listener = listener
     }
 }

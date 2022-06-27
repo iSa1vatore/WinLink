@@ -1,17 +1,19 @@
 package com.sproject.winlink.data.repository
 
 import com.sproject.winlink.common.util.Resource
+import com.sproject.winlink.data.local.DataStoreService
 import com.sproject.winlink.data.remote.PcApi
 import com.sproject.winlink.data.remote.mapper.toMediaInfos
 import com.sproject.winlink.data.remote.mapper.toPcInfos
 import com.sproject.winlink.domain.model.MediaInfos
 import com.sproject.winlink.domain.model.PcInfos
 import com.sproject.winlink.domain.repository.PcRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import java.io.IOException
+import kotlinx.coroutines.flow.*
 
 class PcRepositoryImpl(
-    private val api: PcApi
+    private val api: PcApi,
+    private val dataStoreService: DataStoreService
 ) : PcRepository {
 
     override suspend fun getMediaState(): Flow<Resource<MediaInfos>> = flow {
@@ -30,10 +32,29 @@ class PcRepositoryImpl(
         emit(Resource.Loading())
 
         try {
-            val mediaState = api.getPcInfos().toPcInfos()
+            val pcInfos = api.getPcInfos().toPcInfos()
 
-            emit(Resource.Success(mediaState))
+            emit(Resource.Success(pcInfos))
         } catch (e: Exception) {
+            emit(Resource.Error(message = e.message))
+        }
+    }
+
+    override suspend fun saveLastConnectedPc(pc: PcInfos) =
+        dataStoreService.saveLastConnectedPc(pc)
+
+    override suspend fun getLastConnectedPc(): Flow<Resource<PcInfos?>> = flow {
+        emit(Resource.Loading())
+
+        try {
+            val pcInfos = dataStoreService.getLastConnectedPc()
+
+            if (pcInfos != null) emit(
+                Resource.Success(pcInfos)
+            ) else emit(
+                Resource.Error(message = "no device")
+            )
+        } catch (e: IOException) {
             emit(Resource.Error(message = e.message))
         }
     }

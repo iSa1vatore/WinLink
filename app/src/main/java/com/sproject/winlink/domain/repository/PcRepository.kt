@@ -9,4 +9,7 @@ interface PcRepository {
 
     suspend fun getMediaState(): Flow<Resource<MediaInfos>>
     suspend fun getPcInfos(): Flow<Resource<PcInfos>>
+
+    suspend fun saveLastConnectedPc(pc: PcInfos)
+    suspend fun getLastConnectedPc(): Flow<Resource<PcInfos?>>
 }

@@ -1,19 +1,20 @@
 package com.sproject.winlink.presentation.screens.connection
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sproject.winlink.R
 import com.sproject.winlink.databinding.FragmentConnectionBinding
 import com.sproject.winlink.databinding.ItemDeviceBinding
 import com.sproject.winlink.domain.model.PcInfos
 import com.sproject.winlink.presentation.base.BaseFragment
-import com.sproject.winlink.presentation.extensions.hideKeyboard
+import com.sproject.winlink.presentation.extensions.*
+import com.sproject.winlink.presentation.screens.qr_scanner.QrScannerFragment
 import com.sproject.winlink.presentation.utils.RecyclerViewAdapter
-import com.sproject.winlink.presentation.extensions.visibleIf
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -21,7 +22,29 @@ import kotlinx.coroutines.launch
 class ConnectionFragment : BaseFragment<FragmentConnectionBinding, ConnectionViewModel>(
     R.layout.fragment_connection
 ) {
-    private lateinit var devicesAdapter: RecyclerViewAdapter<ItemDeviceBinding, PcInfos>
+
+    private var devicesAdapter: RecyclerViewAdapter<ItemDeviceBinding, PcInfos>? = null
+
+    private val args: ConnectionFragmentArgs by navArgs()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val liveData = findNavController()
+            .currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<String>(QrScannerFragment.EXTRA_IP_ADDRESS)
+
+        liveData?.observe(viewLifecycleOwner) { address ->
+            if (address == null) return@observe
+
+            Log.e("address", address)
+
+            liveData.value = null
+        }
+
+        vm.init(args.autoConnect)
+    }
 
     override fun setupViews() {
         devicesAdapter = RecyclerViewAdapter(
@@ -49,13 +72,16 @@ class ConnectionFragment : BaseFragment<FragmentConnectionBinding, ConnectionVie
             connectButton.setOnClickListener {
                 hideKeyboard()
 
-                vm.connectToPcByIp(binding.addressField.editText?.text.toString())
+                vm.connectToPcByIp(addressField.editText?.text.toString())
             }
             refreshButton.setOnClickListener {
                 vm.discoverDevicesNearby()
             }
             connectButtonByQr.setOnClickListener {
-                navigate(R.id.action_connectionFragment_to_qrScannerFragment)
+                navigate(
+                    ConnectionFragmentDirections
+                        .actionConnectionFragmentToQrScannerFragment()
+                )
             }
         }
 
@@ -64,32 +90,25 @@ class ConnectionFragment : BaseFragment<FragmentConnectionBinding, ConnectionVie
             with(binding) {
                 when (it) {
                     is ConnectionState.FetchingDevicesNearby -> {
-                        devicesAdapter.items = it.devices
-
-                        contentContainer.visibility = View.VISIBLE
-                        connectingContainer.visibility = View.GONE
-
-                        refreshButton.visibility = View.GONE
+                        devicesAdapter?.items = it.devices
 
                         progressBarMin.visibleIf(it.devices.isNotEmpty())
                         progressBar.visibleIf(it.devices.isEmpty())
 
-                        noDevicesTextView.visibility = View.GONE
+                        hideViews(connectingContainer, refreshButton, noDevicesTextView)
+                        showViews(contentContainer)
                     }
                     is ConnectionState.NearbyDevicesLoaded -> {
-                        devicesAdapter.items = it.devices
-
-                        refreshButton.visibility = View.VISIBLE
-
-                        progressBarMin.visibility = View.GONE
-                        progressBar.visibility = View.GONE
+                        devicesAdapter?.items = it.devices
 
                         noDevicesTextView.visibleIf(it.devices.isEmpty())
+
+                        hideViews(progressBarMin, progressBar)
+                        showViews(refreshButton)
                     }
                     is ConnectionState.ConnectingToPc -> {
-                        contentContainer.visibility = View.GONE
-                        connectingContainer.visibility = View.VISIBLE
-                        refreshButton.visibility = View.GONE
+                        hideViews(contentContainer, refreshButton)
+                        showViews(connectingContainer)
                     }
                 }
             }
@@ -100,7 +119,10 @@ class ConnectionFragment : BaseFragment<FragmentConnectionBinding, ConnectionVie
                 when (event) {
                     is ConnectionEvent.ConnectedToPc -> {
                         showToast(getString(R.string.connected_to, event.pcInfos.name))
-                        navigate(R.id.action_connectionFragment_to_tabsFragment)
+                        navigate(
+                            ConnectionFragmentDirections
+                                .actionConnectionFragmentToTabsFragment()
+                        )
                     }
                     is ConnectionEvent.PcConnectionError -> {
                         showToast(getString(R.string.connection_error))

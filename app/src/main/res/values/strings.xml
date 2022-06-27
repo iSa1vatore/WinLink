@@ -16,4 +16,7 @@
     <string name="connecting_to_pc">Connecting to PC</string>
     <string name="connected_to" formatted="true">Connected to %s</string>
     <string name="connection_error">Connection error</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="gyroscope_mode_off">Gyroscope mode: OFF</string>
+    <string name="gyroscope_mode_on">Gyroscope mode: ON</string>
 </resources>

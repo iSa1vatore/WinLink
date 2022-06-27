@@ -12,6 +12,13 @@ class Mouse {
     }
 
     @Serializable
+    data class Scroll(val x: Int, val y: Int) {
+        companion object {
+            const val ACTION_NAME = "mouse/scroll"
+        }
+    }
+
+    @Serializable
     data class Click(val button: Int) {
         companion object {
             const val ACTION_NAME = "mouse/click"

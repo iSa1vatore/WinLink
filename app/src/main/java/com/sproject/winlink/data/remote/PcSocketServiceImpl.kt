@@ -1,9 +1,12 @@
 package com.sproject.winlink.data.remote
 
+import com.sproject.winlink.common.constants.MediaAction
+import com.sproject.winlink.common.constants.PowerAction
 import com.sproject.winlink.common.util.Resource
 import com.sproject.winlink.data.remote.dto.MediaInfosDto
 import com.sproject.winlink.data.remote.mapper.toMediaInfos
 import com.sproject.winlink.data.remote.socket_actions.Mouse
+import com.sproject.winlink.data.remote.socket_actions.Screen
 import com.sproject.winlink.data.remote.socket_actions.SocketAction
 import com.sproject.winlink.data.remote.socket_actions.Sound
 import com.sproject.winlink.domain.model.MediaInfos
@@ -44,8 +47,31 @@ class PcSocketServiceImpl(
         sendAction(Mouse.Move.ACTION_NAME, Mouse.Move(x, y))
     }
 
+    override suspend fun mouseScroll(x: Int, y: Int) {
+        sendAction(Mouse.Scroll.ACTION_NAME, Mouse.Scroll(x, y))
+    }
+
     override suspend fun mouseClick(button: Int) {
         sendAction(Mouse.Click.ACTION_NAME, Mouse.Click(button))
+    }
+
+    override suspend fun powerAction(action: PowerAction) {
+        sendAction("power/${action.toString().lowercase()}", Unit)
+    }
+
+    override suspend fun mediaAction(action: MediaAction) {
+        sendAction("media/${action.toString().lowercase()}", Unit)
+    }
+
+    override suspend fun screenOff() {
+        sendAction(Screen.Off.ACTION_NAME, Unit)
+    }
+
+    override suspend fun screenSetBrightness(monitor: Int, value: Int) {
+        sendAction(
+            Screen.SetBrightness.ACTION_NAME,
+            Screen.SetBrightness(monitor, value)
+        )
     }
 
     override suspend fun soundSetValue(value: Int) {

@@ -4,8 +4,6 @@ import com.sproject.winlink.common.util.NetworkUtils
 import com.sproject.winlink.data.remote.PcApi
 import com.sproject.winlink.data.remote.PcSocketService
 import com.sproject.winlink.data.remote.PcSocketServiceImpl
-import com.sproject.winlink.data.repository.PcRepositoryImpl
-import com.sproject.winlink.domain.repository.PcRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +20,7 @@ import kotlinx.serialization.json.Json
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object NetworkModule {
 
     @Provides
     @Singleton
@@ -55,12 +53,6 @@ object AppModule {
     @Singleton
     fun providePcApi(client: HttpClient): PcApi {
         return PcApi(client)
-    }
-
-    @Provides
-    @Singleton
-    fun providePcRepository(pcApi: PcApi): PcRepository {
-        return PcRepositoryImpl(pcApi)
     }
 
     @Provides

@@ -15,5 +15,4 @@ sealed class ConnectionState {
     data class ConnectingToPc(
         val pcInfos: PcInfos
     ) : ConnectionState()
-
 }
