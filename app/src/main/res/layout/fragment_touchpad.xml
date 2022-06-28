@@ -23,6 +23,30 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <Button
+        android:id="@+id/keyboardButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/horizontal_margin"
+        android:text="@string/keyboard"
+        app:layout_constraintEnd_toStartOf="@+id/gyroscopeModeButton"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintWidth_percent="0.3" />
+
+    <Button
+        android:id="@+id/gyroscopeModeButton"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:text="@string/gyroscope_mode_off"
+        app:layout_constraintBottom_toBottomOf="@+id/keyboardButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/keyboardButton"
+        app:layout_constraintTop_toTopOf="@+id/keyboardButton" />
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/keyboard"
         android:layout_width="1dp"
@@ -38,36 +62,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/horizontal_margin"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/keyboardButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
-    <Button
-        android:id="@+id/keyboardButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/horizontal_margin"
-        android:layout_marginBottom="8dp"
-        android:text="@string/keyboard"
+        android:layout_marginVertical="@dimen/vertical_margin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/gyroscopeModeButton"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.3" />
-
-    <Button
-        android:id="@+id/gyroscopeModeButton"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/horizontal_margin"
-        android:text="@string/gyroscope_mode_off"
-        app:layout_constraintBottom_toBottomOf="@+id/keyboardButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/keyboardButton"
-        app:layout_constraintTop_toTopOf="@+id/keyboardButton" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keyboardButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

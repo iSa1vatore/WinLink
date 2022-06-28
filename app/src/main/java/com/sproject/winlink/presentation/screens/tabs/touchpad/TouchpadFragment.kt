@@ -1,5 +1,6 @@
 package com.sproject.winlink.presentation.screens.tabs.touchpad
 
+import android.view.KeyEvent
 import androidx.core.widget.doOnTextChanged
 import com.sproject.winlink.R
 import com.sproject.winlink.common.constants.MouseButton
@@ -38,12 +39,22 @@ class TouchpadFragment : BaseFragment<FragmentTouchpadBinding, TouchpadViewModel
                 keyboard.showKeyboard()
             }
 
-            keyboard.doOnTextChanged { text, _, _, _ ->
-                val symbol = text?.lastOrNull()
-
-                if (symbol != null) {
-                    println(symbol)
+            keyboard.doOnTextChanged { text, s, b, c ->
+                if (text?.isNotEmpty() == true) {
+                    vm.keyboardPress(text.toString())
+                    keyboard.setText("")
                 }
+            }
+
+            keyboard.setOnKeyListener { v, keyCode, event ->
+                if (
+                    event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_DEL
+                ) {
+                    vm.keyboardPress("backspace")
+                }
+
+                false
             }
         }
     }

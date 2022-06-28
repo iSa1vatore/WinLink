@@ -5,10 +5,7 @@ import com.sproject.winlink.common.constants.PowerAction
 import com.sproject.winlink.common.util.Resource
 import com.sproject.winlink.data.remote.dto.MediaInfosDto
 import com.sproject.winlink.data.remote.mapper.toMediaInfos
-import com.sproject.winlink.data.remote.socket_actions.Mouse
-import com.sproject.winlink.data.remote.socket_actions.Screen
-import com.sproject.winlink.data.remote.socket_actions.SocketAction
-import com.sproject.winlink.data.remote.socket_actions.Sound
+import com.sproject.winlink.data.remote.socket_actions.*
 import com.sproject.winlink.domain.model.MediaInfos
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
@@ -61,6 +58,10 @@ class PcSocketServiceImpl(
 
     override suspend fun mediaAction(action: MediaAction) {
         sendAction("media/${action.toString().lowercase()}", Unit)
+    }
+
+    override suspend fun keyboardPress(key: String) {
+        sendAction(Keyboard.Press.ACTION_NAME, Keyboard.Press(key))
     }
 
     override suspend fun screenOff() {

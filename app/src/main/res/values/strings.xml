@@ -19,4 +19,6 @@
     <string name="keyboard">Keyboard</string>
     <string name="gyroscope_mode_off">Gyroscope mode: OFF</string>
     <string name="gyroscope_mode_on">Gyroscope mode: ON</string>
+    <string name="files_count" formatted="true">Files: %s</string>
+    <string name="no_data">No data</string>
 </resources>

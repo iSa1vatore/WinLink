@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/buttonIcon"
+            android:id="@+id/fileIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center"
@@ -39,7 +39,7 @@
         tools:text="Movies"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/lastEdit"
+        app:layout_constraintBottom_toTopOf="@id/desc"
         app:layout_constraintEnd_toStartOf="@+id/moreIcon"
         app:layout_constraintStart_toEndOf="@id/materialCardView"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +47,7 @@
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/lastEdit"
+        android:id="@+id/desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="3 days ago"

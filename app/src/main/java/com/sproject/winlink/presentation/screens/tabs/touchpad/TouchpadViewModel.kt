@@ -35,6 +35,12 @@ class TouchpadViewModel @Inject constructor(
         }
     }
 
+    fun keyboardPress(key: String) {
+        viewModelScope.launch {
+            pcSocketService.keyboardPress(key)
+        }
+    }
+
     fun toggleGyroscopeMode() {
         setState(TouchpadState(gyroscopeIsEnabled = !state.value!!.gyroscopeIsEnabled))
     }

@@ -2,7 +2,8 @@ package com.sproject.winlink.domain.model
 
 data class FileItem(
     val name: String,
-    val lastEdit: Long,
+    val lastEdit: Int,
     val isFolder: Boolean,
-    val path: String
+    val path: String,
+    val filesCount: Int
 )

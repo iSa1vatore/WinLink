@@ -20,6 +20,8 @@ interface PcSocketService {
 
     suspend fun mediaAction(action: MediaAction)
 
+    suspend fun keyboardPress(key: String)
+
     suspend fun screenOff()
 
     suspend fun screenSetBrightness(monitor: Int, value: Int)
