@@ -27,12 +27,13 @@ class FilesViewModel @Inject constructor(
             pcRepository.getFiles(path).collect { it ->
                 when (it) {
                     is Resource.Loading -> setState(
-                        FilesState(isLoading = true),
+                        state.value!!.copy(isLoading = true),
                         true
                     )
                     is Resource.Success -> setState(
-                        FilesState(
+                        state.value!!.copy(
                             isLoading = false,
+                            path = path,
                             files = it.data!!.map {
                                 RecyclerViewAdapter.Item(it)
                             }
@@ -40,7 +41,7 @@ class FilesViewModel @Inject constructor(
                         true
                     )
                     is Resource.Error -> setState(
-                        FilesState(error = it.message),
+                        state.value!!.copy(isLoading = false, error = it.message),
                         true
                     )
                 }
@@ -54,6 +55,25 @@ class FilesViewModel @Inject constructor(
             sendEvent(FilesEvent.DownloadFile(name = file.name, url = url))
         }
 
-    fun deleteFile(file: FileItem) {
-    }
+    fun deleteFile(file: FileItem) =
+        viewModelScope.launch {
+
+            pcRepository.deleteFile(file.path).collect { it ->
+                when (it) {
+                    is Resource.Success -> {
+                        val files = state.value!!.files
+
+                        val newFilesList = files.filter { it.details != file }
+                        setState(
+                            state.value!!.copy(files = newFilesList),
+                            true
+                        )
+
+                        sendEvent(FilesEvent.FileRemoved(file = file))
+                    }
+                    is Resource.Error -> {}
+                    is Resource.Loading -> {}
+                }
+            }
+        }
 }

@@ -30,6 +30,13 @@ class PcApi(
         )
     )
 
+    suspend fun deleteFile(path: String): Int = call(
+        method = "/files/delete",
+        params = mapOf(
+            "path" to path
+        )
+    )
+
     private suspend inline fun <reified T> call(
         method: String,
         params: Map<String, String>? = null

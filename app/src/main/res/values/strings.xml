@@ -21,4 +21,6 @@
     <string name="gyroscope_mode_on">Gyroscope mode: ON</string>
     <string name="files_count" formatted="true">Files: %s</string>
     <string name="no_data">No data</string>
+    <string name="file_removed">File removed</string>
+    <string name="folder_removed">Folder removed</string>
 </resources>

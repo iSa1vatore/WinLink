@@ -9,8 +9,11 @@ import kotlinx.coroutines.flow.Flow
 interface PcRepository {
 
     suspend fun getMediaState(): Flow<Resource<MediaInfos>>
+
     suspend fun getPcInfos(): Flow<Resource<PcInfos>>
+
     suspend fun getFiles(path: String): Flow<Resource<List<FileItem>>>
+    suspend fun deleteFile(path: String): Flow<Resource<Unit>>
 
     suspend fun saveLastConnectedPc(pc: PcInfos)
     suspend fun getLastConnectedPc(): Flow<Resource<PcInfos?>>

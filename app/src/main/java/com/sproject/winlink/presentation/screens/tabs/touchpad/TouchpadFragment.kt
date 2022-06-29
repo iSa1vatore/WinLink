@@ -39,14 +39,14 @@ class TouchpadFragment : BaseFragment<FragmentTouchpadBinding, TouchpadViewModel
                 keyboard.showKeyboard()
             }
 
-            keyboard.doOnTextChanged { text, s, b, c ->
+            keyboard.doOnTextChanged { text, _, _, _ ->
                 if (text?.isNotEmpty() == true) {
                     vm.keyboardPress(text.toString())
                     keyboard.setText("")
                 }
             }
 
-            keyboard.setOnKeyListener { v, keyCode, event ->
+            keyboard.setOnKeyListener { _, keyCode, event ->
                 if (
                     event.action == KeyEvent.ACTION_DOWN &&
                     keyCode == KeyEvent.KEYCODE_DEL

@@ -55,6 +55,22 @@ class PcRepositoryImpl(
         }
     }
 
+    override suspend fun deleteFile(path: String): Flow<Resource<Unit>> = flow {
+        emit(Resource.Loading())
+
+        try {
+            val delete = api.deleteFile(path)
+
+            if (delete == 1) {
+                emit(Resource.Success(Unit))
+            } else {
+                emit(Resource.Error(message = "delete file error"))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error(message = e.message))
+        }
+    }
+
     override suspend fun saveLastConnectedPc(pc: PcInfos) =
         dataStoreService.saveLastConnectedPc(pc)
 

@@ -12,6 +12,7 @@ import com.sproject.winlink.databinding.FragmentFilesBinding
 import com.sproject.winlink.databinding.ItemFileBinding
 import com.sproject.winlink.domain.model.FileItem
 import com.sproject.winlink.presentation.base.BaseFragment
+import com.sproject.winlink.presentation.extensions.showToast
 import com.sproject.winlink.presentation.extensions.visibleIf
 import com.sproject.winlink.presentation.utils.RecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,13 +85,15 @@ class FilesFragment : BaseFragment<FragmentFilesBinding, FilesViewModel>(
                 itemAnimator.supportsChangeAnimations = false
             }
 
-            currentPathTextView.text = "PC"
+            currentPathTextView.text = "/"
         }
     }
 
     override fun setupObservers() {
         vm.state.observe(viewLifecycleOwner) {
             binding.progressBar.visibleIf(it.isLoading)
+
+            binding.currentPathTextView.text = it.path
 
             devicesAdapter?.items = it.files
         }
@@ -103,6 +106,13 @@ class FilesFragment : BaseFragment<FragmentFilesBinding, FilesViewModel>(
                             fileName = event.name,
                             url = event.url,
                         )
+                    }
+                    is FilesEvent.FileRemoved -> {
+                        if (event.file.isFolder) {
+                            showToast(getString(R.string.folder_removed))
+                        } else {
+                            showToast(getString(R.string.file_removed))
+                        }
                     }
                 }
             }
