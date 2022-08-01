@@ -14,11 +14,6 @@ Remote control of Windows from your phone
     <td><img src="https://i.ibb.co/fkpbnHf/control-panel.png" width=270></td>
   </tr>
   <tr>
-    <td>Chat details</td>
-     <td>Contacts</td>
-     <td>People nearby</td>
-  </tr>
-  <tr>
     <td>Files</td>
   </tr>
   <tr>
